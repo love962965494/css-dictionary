@@ -4,14 +4,7 @@ import './index.css'
 import { hydrate, render } from 'react-dom'
 import registerServiceWorker from './registerServiceWorker'
 import 'highlight.js/styles/github.css'
-
-// const resize = () => {
-//   const fontSize = ((document.body.clientWidth * 18) / 1920).toFixed(2) + 'px'
-
-//   document.documentElement!.style.fontSize = fontSize
-// }
-
-// window.addEventListener('resize', resize)
+import { setItem } from 'utils/session'
 
 const roorElement = document.getElementById('root')!
 
@@ -30,6 +23,13 @@ if (process.env.NODE_ENV !== 'production' && module.hot) {
   })
 }
 
-// resize()
+window.addEventListener('beforeunload', (ev) => {
+  const oDiv = document.querySelector('#container > div')
+
+  const pos = (oDiv && oDiv.scrollTop) || ''
+  
+  setItem('scrollTop', pos.toString())
+})
+
 renderPage(Page)
 registerServiceWorker()

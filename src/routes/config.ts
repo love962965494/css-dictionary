@@ -44,6 +44,12 @@ const CSSConfig: IEnumTpProp<ICSSSeriesProps> = {
         title: '::after',
         path: '/after',
         component: importComponent('Pseudo-class/After')
+      },
+      {
+        id: '012',
+        title: '::before',
+        path: '/before',
+        component: importComponent('Pseudo-class/Before')
       }
     ]
   },

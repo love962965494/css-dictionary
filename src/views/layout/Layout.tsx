@@ -1,22 +1,37 @@
-import React, { Component, ComponentType } from 'react'
-import { Row } from 'antd'
+import React, { Component } from 'react'
 import RoutesComponent from 'routes'
 import styled from 'styled-components'
+import { getItem, setItem } from 'utils/session'
+import { RouteComponentProps, withRouter } from 'react-router'
 
-const LayoutContainer = styled(Row as ComponentType)`
+const LayoutContainer = styled.div`
   text-align: center;
 `
 
-interface IOwnProps {
+interface IOwnProps extends RouteComponentProps {
   currentProperty: string
 }
 
-export default class Layout extends Component<IOwnProps> {
+class Layout extends Component<IOwnProps> {
+  public componentDidMount() {
+    const pos = getItem('scrollTop') || ''
+    const oDiv = document.querySelector('#container > div')
+    if (oDiv) {
+      oDiv.scrollTo(0, parseFloat(pos))
+    }
+  }
+
+  public componentWillUnmount() {
+    setItem('scrollTop', '0')
+  }
+
   public render() {
     return (
-      <LayoutContainer>
+      <LayoutContainer id="container">
         <RoutesComponent />
       </LayoutContainer>
     )
   }
 }
+
+export default withRouter(Layout)
