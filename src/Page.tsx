@@ -6,13 +6,13 @@ import Page404 from 'views/errorPage/Page404'
 
 const redirectToDashboard = () => <Redirect to="/dashboard" push={true} />
 
-export const CurrentPropertyContext = React.createContext({})
+export const PrevRouteContext = React.createContext({})
 
-export type IChangeProperty = (currentProperty: string) => void
+export type IChangeRoute = (currentRoute: string) => void
 
 export interface IPageStateProps {
-  currentProperty: string
-  changeProperty: IChangeProperty
+  prevRoute: string
+  changeRoute: IChangeRoute
 }
 
 export default class Page extends Component {
@@ -21,20 +21,20 @@ export default class Page extends Component {
   constructor(props: any) {
     super(props)
     this.state = {
-      currentProperty: '',
-      changeProperty: this.changeProperty
+      prevRoute: '',
+      changeRoute: this.changeRoute
     }
   }
 
-  public changeProperty = (currentProperty: string) => {
+  public changeRoute = (currentRoute: string) => {
     this.setState({
-      currentProperty
+      prevRoute: currentRoute
     })
   }
 
   public render() {
     return (
-      <CurrentPropertyContext.Provider value={this.state}>
+      <PrevRouteContext.Provider value={this.state}>
         <BrowserRouter>
           <Switch>
             <Route exact={true} path="/" render={redirectToDashboard} />
@@ -43,7 +43,7 @@ export default class Page extends Component {
             <Route component={Page404} />
           </Switch>
         </BrowserRouter>
-      </CurrentPropertyContext.Provider>
+      </PrevRouteContext.Provider>
     )
   }
 }

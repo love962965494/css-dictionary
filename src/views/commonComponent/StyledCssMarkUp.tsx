@@ -39,17 +39,33 @@ const StyledFigure = styled.figure`
   }
 `
 
-const ImageContainer: StatelessComponent<{ title?: string; des?: ReactNode }> = ({
-  children,
-  title,
-  des
-}) => (
-  <StyledFigure
-    aria-describedby={title}
-  >
+const ImageContainer: StatelessComponent<{
+  title?: string
+  des?: ReactNode
+}> = ({ children, title, des }) => (
+  <StyledFigure aria-describedby={title}>
     {children}
     <figcaption>{des}</figcaption>
   </StyledFigure>
 )
 
-export { CssProperty, CssDeclare, CssClass, CodeContainer, ImageContainer }
+const StyledH3 = styled.h2`
+  padding: 10px;
+  border-bottom: 3px solid #ccc;
+  color: currentColor;
+  font-size: 1.5em;
+  font-weight: bold;
+`
+
+const SubTitle: StatelessComponent = ({ children }) => (
+  <StyledH3>{children}</StyledH3>
+)
+
+export {
+  CssProperty,
+  CssDeclare,
+  CssClass,
+  CodeContainer,
+  ImageContainer,
+  SubTitle
+}

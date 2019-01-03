@@ -4,7 +4,6 @@ import { Row } from 'antd'
 import Header from 'views/layout/Header'
 import CSSConfig, { ICSSSeriesProps, CSSReference } from 'routes/config'
 import { Link } from 'react-router-dom'
-import { CurrentPropertyContext, IPageStateProps, IChangeProperty } from 'Page'
 import bg from 'assets/images/bg.png'
 import flowerBorder from 'assets/images/flowerBorder.jpg'
 
@@ -69,35 +68,16 @@ interface IPropertyProps {
   hoverColor: string
 }
 
-function CssSeries(
-  propertyList: IPropertyProps[],
-  clickHandler?: IChangeProperty,
-  ...props: any[]
-) {
+function CssSeries(propertyList: IPropertyProps[], ...props: any[]) {
   return (
-    <Row
-      style={{ padding: '20px', margin: '0 10px 2em' }}
-    >
+    <Row style={{ padding: '20px', margin: '0 10px 2em' }}>
       <StyledList {...props}>
         {propertyList.map((property) => {
-          if (clickHandler) {
-            return (
-              <StyledListItem
-                key={property.id}
-                onClick={clickHandler.bind(null, property.title)}
-              >
-                <Link to={property.path}>{property.title}</Link>
-              </StyledListItem>
-            )
-          } else {
-            return (
-              <StyledListItem
-                key={property.id}
-              >
-                <Link to={property.path}>{property.title}</Link>
-              </StyledListItem>
-            )
-          }
+          return (
+            <StyledListItem key={property.id}>
+              <Link to={property.path}>{property.title}</Link>
+            </StyledListItem>
+          )
         })}
       </StyledList>
     </Row>
@@ -120,10 +100,7 @@ const CssSeriesCatalog = () =>
   )
 
 const PseudoClassConfig = CSSConfig[CSSReference.PSEUDOCLASS]
-const CssSeriesPseudoClass = (
-  { clickHandler }: { clickHandler: IChangeProperty },
-  ...props: any[]
-) =>
+const CssSeriesPseudoClass = (...props: any) =>
   CssSeries(
     PseudoClassConfig.properties.map((property) => {
       return {
@@ -134,22 +111,17 @@ const CssSeriesPseudoClass = (
         hoverColor: PseudoClassConfig.hoverColor
       }
     }),
-    clickHandler,
     ...props
   )
 
 export default class Layout extends Component {
   public render() {
     return (
-      <CurrentPropertyContext.Consumer>
-        {({ changeProperty }: IPageStateProps) => (
-          <LayoutContainer>
-            <Header />
-            <CssSeriesCatalog />
-            <CssSeriesPseudoClass clickHandler={changeProperty} />
-          </LayoutContainer>
-        )}
-      </CurrentPropertyContext.Consumer>
+      <LayoutContainer>
+        <Header />
+        <CssSeriesCatalog />
+        <CssSeriesPseudoClass />
+      </LayoutContainer>
     )
   }
 }

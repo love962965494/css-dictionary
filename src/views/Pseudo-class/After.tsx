@@ -8,7 +8,8 @@ import {
   CssDeclare,
   CssClass,
   CodeContainer,
-  ImageContainer
+  ImageContainer,
+  SubTitle
 } from 'views/commonComponent/StyledCssMarkUp'
 import highlightComponent from 'views/commonComponent/HighlightCode'
 import formatHTML from 'utils/formatHTML'
@@ -182,6 +183,64 @@ class After extends Component {
               `
             )}
           </CodeContainer>
+          <p>
+            伪类元素<CssProperty>::after</CssProperty>
+            也可以像其它元素一样被定义样式--它可以
+            <CssProperty>floated、positioned</CssProperty>，甚至可以
+            <CssProperty>animated</CssProperty>
+            （Animating伪类元素并不是所有的浏览器都支持。）
+          </p>
+          <p>
+            通过对伪类元素实现像实体元素一样的样式功能，使我们可以使用伪类来实现一些装饰性的功能。
+            伪类元素被广泛用来实现几何图形。下边是一个实现八边形星星的例子。前四个点构成的长方形是
+            元素自身实现的，元素的伪类元素拥有和元素一样的高度和宽度，通过绝对定位的方式放置在元素
+            的上方，然后旋转45度，从而组成了一个八边形。
+          </p>
+          <CodeContainer type="css">
+            {formatHTML(
+              `
+                /**
+                 * The element and its pesudo-element are both made translucent using the \`opacity\`
+                 * property in order to better visualize how the two are positioned in the demo.
+                 * By removing the opacity values, you can see a fully opaque eight-point star
+                 */
+                .element {
+                  width: 250px;
+                  height: 250px;
+                  background-color: #009966;
+                  opacity: .8;
+                  position: relative;
+                  margin: 100px auto;
+                }
+
+                .element::after {
+                  content: '';
+                  position: absolute;
+                  display: block;
+                  width: 250px;
+                  height: 250px;
+                  background-color: #009966;
+                  opacity: .8;
+                  transform: rotateZ(45deg);
+                }
+              `
+            )}
+          </CodeContainer>
+          <p>
+            因为伪类元素只是被用作装饰元素，所以
+            <CssProperty>content</CssProperty>属性为空。
+          </p>
+          <iframe
+            src="https://tympanus.net/codrops-playground/SaraSoueidan/kFTn9yJk/embed/result,html,css/"
+            width="100%"
+            height="480px"
+          />
+          <p>
+            这个例子也可以通过使用<CssProperty>::before</CssProperty>实现。
+          </p>
+          <SubTitle>
+            冷门知识 & 笔记
+          </SubTitle>
         </StyledContent>
       </StyledContainer>
     )
